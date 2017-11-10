@@ -1,11 +1,49 @@
 {
-  "name": "core",
+  "name": "@createjs/core",
   "version": "2.0.0",
   "description": "TODO",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "keywords": [
+    "createjs",
+    "event",
+    "eventdispatcher",
+    "ticker",
+    "gskinner",
+    "javascript",
+    "html5"
+  ],
+  "homepage": "https://createjs.com/preloadjs",
+  "url": "https://npmjs.com/package/preloadjs",
+  "bugs": "https://github.com/createjs/preloadjs/issues",
+  "license": "MIT",
+  "contributors": [
+    "Grant Skinner <grant@gskinner.com> (https://github.com/gskinner)",
+    "Lanny McNie <lanny@gskinner.com> (https://github.com/lannymcnie)",
+    "Wes Gorgichuk <wes@gskinner.com> (https://github.com/wdamien)"
+  ],
+  "main": "dist/preload.common.js",
+  "jsnext:main": "dist/preload.es6.js",
+  "jsdelivr": "dist/preload.min.js",
+  "logo": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/createjs/preloadjs.git"
   },
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "travis": "cd node_modules/createjs && npm run travis",
+    "lint": "cd node_modules/createjs && npm run lint",
+    "test": "cd node_modules/createjs && npm run test",
+    "test:headless": "cd node_modules/createjs && npm run test:headless",
+    "dev": "cd node_modules/createjs && npm run dev",
+    "build": "cd node_modules/createjs && npm run build",
+    "build:next": "cd node_modules/createjs && npm run build:next",
+    "plugins": "cd node_modules/createjs && npm run plugins",
+    "docs": "cd node_modules/createjs && npm run docs"
+  },
+  "dependencies": {
+    "createjs": "2.0.0"
+  },
+  "devDependencies": {
+
+  },
+  "engine": "node >= 7.10.1"
 }

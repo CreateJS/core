@@ -45,12 +45,10 @@ export default class Event {
 	 * @param {String} type The event type.
 	 * @param {Boolean} [bubbles=false] Indicates whether the event will bubble through the display list.
 	 * @param {Boolean} [cancelable=false] Indicates whether the default behaviour of this event can be cancelled.
-	 * @constructor
 	 */
 	constructor (type, bubbles = false, cancelable = false) {
 		/**
 		 * The type of event.
-		 * @property type
 		 * @type String
 		 */
 		this.type = type;
