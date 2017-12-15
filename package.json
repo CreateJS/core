@@ -40,7 +40,7 @@
     "docs": "cd node_modules/createjs && npm run docs"
   },
   "dependencies": {
-    "createjs": "2.0.0"
+    
   },
   "devDependencies": {
 

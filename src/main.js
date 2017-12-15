@@ -37,4 +37,4 @@ export { default as EventDispatcher } from "./events/EventDispatcher";
 // utils
 export { default as Ticker } from "./utils/Ticker";
 // version (templated in gulpfile, pulled from package).
-export const version = "2.0.0"; // "<%= version %>";
+export const version = "<%= version %>";
