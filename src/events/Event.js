@@ -27,35 +27,33 @@
  */
 
 /**
- * Contains properties and methods shared by all events for use with {@link EventDispatcher}.
+ * Contains properties and methods shared by all events for use with {@link core.EventDispatcher}.
  * Note that Event objects are often reused, so you should never
  * rely on an event object's state outside of the call stack it was received in.
  *
- * @public
+ * @memberof core
  * @example
- * let evt = new Event('myEvent');
- * let dispatcher = new EventDispatcher();
- * dispatcher.on('myEvent', e => console.log(e.type));
- * dispatcher.dispatch(evt); // logs 'myEvent'
+ * const evt = new Event("myEvent");
+ * const dispatcher = new EventDispatcher();
+ * dispatcher.on("myEvent", event => console.log(event.type));
+ * dispatcher.dispatchEvent(evt); // logs "myEvent"
+ *
+ * @param {string} type The event type.
+ * @param {boolean} [bubbles=false] Indicates whether the event will bubble through the display list.
+ * @param {boolean} [cancelable=false] Indicates whether the default behaviour of this event can be cancelled.
  */
-export default class Event {
+class Event {
 
-// constructor:
-	/**
-	 * @param {String} type The event type.
-	 * @param {Boolean} [bubbles=false] Indicates whether the event will bubble through the display list.
-	 * @param {Boolean} [cancelable=false] Indicates whether the default behaviour of this event can be cancelled.
-	 */
 	constructor (type, bubbles = false, cancelable = false) {
 		/**
 		 * The type of event.
-		 * @type String
+		 * @type string
 		 */
 		this.type = type;
 
 		/**
 		 * The object that generated an event.
-		 * @property target
+		 *
 		 * @type Object
 		 * @default null
 		 * @readonly
@@ -67,7 +65,7 @@ export default class Event {
 		 * always be the same as target. For example, if childObj.parent = parentObj, and a bubbling event
 		 * is generated from childObj, then a listener on parentObj would receive the event with
 		 * target=childObj (the original target) and currentTarget=parentObj (where the listener was added).
-		 * @property currentTarget
+		 *
 		 * @type Object
 		 * @default null
 		 * @readonly
@@ -75,13 +73,14 @@ export default class Event {
 		this.currentTarget = null;
 
 		/**
-		 * For bubbling events, this indicates the current event phase:<OL>
+		 * For bubbling events, this indicates the current event phase:
+		 * <OL>
 		 * 	<LI> capture phase: starting from the top parent to the target</LI>
 		 * 	<LI> at target phase: currently being dispatched from the target</LI>
 		 * 	<LI> bubbling phase: from the target to the top parent</LI>
 		 * </OL>
-		 * @property eventPhase
-		 * @type Number
+		 *
+		 * @type number
 		 * @default 0
 		 * @readonly
 		 */
@@ -89,139 +88,131 @@ export default class Event {
 
 		/**
 		 * Indicates whether the event will bubble through the display list.
-		 * @property bubbles
-		 * @type Boolean
-		 * @default false
+		 *
+		 * @type boolean
 		 * @readonly
 		 */
 		this.bubbles = bubbles;
 
 		/**
-		 * Indicates whether the default behaviour of this event can be cancelled via
-		 * {{#crossLink "Event/preventDefault"}}{{/crossLink}}. This is set via the Event constructor.
-		 * @property cancelable
-		 * @type Boolean
-		 * @default false
+		 * Indicates whether the default behaviour of this event can be cancelled via {@link core.Event#preventDefault}.
+		 *
+		 * @type boolean
 		 * @readonly
 		 */
 		this.cancelable = cancelable;
 
 		/**
 		 * The epoch time at which this event was created.
-		 * @property timeStamp
-		 * @type Number
-		 * @default 0
+		 *
+		 * @type number
 		 * @readonly
 		 */
 		this.timeStamp = new Date().getTime();
 
 		/**
-		 * Indicates if {{#crossLink "Event/preventDefault"}}{{/crossLink}} has been called
-		 * on this event.
-		 * @property defaultPrevented
-		 * @type Boolean
+		 * Indicates if {@link core.Event#preventDefault} has been called on this event.
+		 *
+		 * @type boolean
 		 * @default false
 		 * @readonly
 		 */
 		this.defaultPrevented = false;
 
 		/**
-		 * Indicates if {{#crossLink "Event/stopPropagation"}}{{/crossLink}} or
-		 * {{#crossLink "Event/stopImmediatePropagation"}}{{/crossLink}} has been called on this event.
-		 * @property propagationStopped
-		 * @type Boolean
+		 * Indicates if {@link core.Event#stopPropagation} or {@link core.Event#stopImmediatePropagation} has been called on this event.
+		 *
+		 * @type boolean
 		 * @default false
 		 * @readonly
 		 */
 		this.propagationStopped = false;
 
 		/**
-		 * Indicates if {{#crossLink "Event/stopImmediatePropagation"}}{{/crossLink}} has been called
-		 * on this event.
-		 * @property immediatePropagationStopped
-		 * @type Boolean
+		 * Indicates if {@link core.Event#stopImmediatePropagation} has been called on this event.
+		 *
+		 * @type boolean
 		 * @default false
 		 * @readonly
 		 */
 		this.immediatePropagationStopped = false;
 
 		/**
-		 * Indicates if {{#crossLink "Event/remove"}}{{/crossLink}} has been called on this event.
-		 * @property removed
-		 * @type Boolean
+		 * Indicates if {@link core.Event#remove} has been called on this event.
+		 *
+		 * @type boolean
 		 * @default false
 		 * @readonly
 		 */
 		this.removed = false;
 	}
 
-// public methods:
 	/**
-	 * Sets {{#crossLink "Event/defaultPrevented"}}{{/crossLink}} to true if the event is cancelable.
+	 * Sets {@link core.Event#defaultPrevented} to true if the event is cancelable.
 	 * Mirrors the DOM level 2 event standard. In general, cancelable events that have `preventDefault()` called will
 	 * cancel the default behaviour associated with the event.
-	 * @method preventDefault
+	 * @return {core.Event} this, chainable
 	 */
 	preventDefault () {
 		this.defaultPrevented = this.cancelable;
+		return this;
 	}
 
 	/**
-	 * Sets {{#crossLink "Event/propagationStopped"}}{{/crossLink}} to true.
+	 * Sets {@link core.Event#propagationStopped} to true.
 	 * Mirrors the DOM event standard.
-	 * @method stopPropagation
+	 * @return {core.Event} this, chainable
 	 */
 	stopPropagation () {
 		this.propagationStopped = true;
+		return this;
 	}
 
 	/**
-	 * Sets {{#crossLink "Event/propagationStopped"}}{{/crossLink}} and
-	 * {{#crossLink "Event/immediatePropagationStopped"}}{{/crossLink}} to true.
+	 * Sets {@link core.Event#propagationStopped} and {@link core.Event#immediatePropagationStopped} to true.
 	 * Mirrors the DOM event standard.
-	 * @method stopImmediatePropagation
+	 * @return {core.Event} this, chainable
 	 */
 	stopImmediatePropagation () {
 		this.immediatePropagationStopped = this.propagationStopped = true;
+		return this;
 	}
 
 	/**
 	 * Causes the active listener to be removed via removeEventListener();
 	 *
-	 * 		myBtn.addEventListener("click", function(evt) {
-	 * 			// do stuff...
-	 * 			evt.remove(); // removes this listener.
-	 * 		});
+	 * @example
+	 * myBtn.addEventListener("click", event => {
+	 *   event.remove(); // removes this listener.
+	 * });
 	 *
-	 * @method remove
+	 * @return {core.Event} this, chainable
 	 */
 	remove () {
 		this.removed = true;
+		return this;
 	}
 
 	/**
 	 * Returns a clone of the Event instance.
-	 * @method clone
-	 * @return {Event} a clone of the Event instance.
+	 *
+	 * @return {core.Event} a clone of the Event instance.
 	 */
 	clone () {
-		let event = new Event(this.type, this.bubbles, this.cancelable);
+		const event = new Event(this.type, this.bubbles, this.cancelable);
 		for (let n in this) {
 			if (this.hasOwnProperty(n)) {
 				event[n] = this[n];
 			}
 		}
-
 		return event;
 	}
 
 	/**
-	 * Provides a chainable shortcut method for setting a number of properties on the instance.
+	 * Provides a return {core.Event} this, chainable shortcut method for setting a number of properties on the instance.
 	 *
-	 * @method set
 	 * @param {Object} props A generic object containing properties to copy to the instance.
-	 * @return {Event} Returns the instance the method is called on (useful for chaining calls.)
-	 * @chainable
+	 * @return {core.Event} this, chainable
 	 */
 	set (props) {
 		for (let n in props) { this[n] = props[n]; }
@@ -230,11 +221,13 @@ export default class Event {
 
 	/**
 	 * Returns a string representation of this object.
-	 * @method toString
-	 * @return {String} a string representation of the instance.
+	 *
+	 * @return {string} A string representation of the instance.
 	 */
 	toString () {
 		return `[${this.constructor.name} (type=${this.type})]`;
 	}
 
 }
+
+export default Event;

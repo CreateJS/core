@@ -28,7 +28,14 @@
 
 /**
  * The core classes of CreateJS.
- * @module @createjs/core
+ * @namespace core
+ *
+ * @example
+ * import { EventDispatcher, Event } from "@createjs/core";
+ * const dispatcher = new EventDispatcher();
+ * dispatcher.on("myEvent", foo);
+ * dispatcher.dispatchEvent(new Event("myEvent"));
+ * // foo() is called.
  */
 
 // events
