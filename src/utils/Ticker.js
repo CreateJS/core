@@ -285,6 +285,9 @@ class Ticker extends EventDispatcher {
 	 * @return {core.Ticker} A new Ticker instance.
 	 */
 	create (name) {
+		if (_tickerInstances[name]) {
+			throw new Error(`A ticker instance named '${name}' already exists.`);
+		}
 		return new Ticker(name);
 	}
 
