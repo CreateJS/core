@@ -491,7 +491,7 @@ class Ticker extends EventDispatcher {
 	 * @private
 	 */
 	_getTime () {
-		const now = window.performance.now;
+		const now = window.performance && window.performance.now;
 		return ((now && now.call(performance)) || (new Date().getTime())) - this._startTime;
 	}
 
