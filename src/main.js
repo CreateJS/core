@@ -43,5 +43,6 @@ export { default as Event } from "./events/Event";
 export { default as EventDispatcher } from "./events/EventDispatcher";
 // utils
 export { default as Ticker } from "./utils/Ticker";
-// version (templated in gulpfile, pulled from package).
-export const version = "<%= version %>";
+// inject version into window
+const v = (window.createjs = window.createjs || { v: {} });
+v.c = "<%= version %>";
