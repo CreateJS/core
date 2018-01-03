@@ -32,6 +32,7 @@ import Event from "../events/Event";
 // reference to each ticker created
 const _tickerInstances = {};
 function getTicker (name) { return _tickerInstances[name]; }
+function deleteTicker (name) { delete _tickerInstances[name]; }
 
 /**
  * The Ticker provides a centralized tick or heartbeat broadcast at a set interval. Listeners can subscribe to the tick
@@ -512,4 +513,4 @@ class Ticker extends EventDispatcher {
  */
 
 export default new Ticker("createjs.global");
-export { Ticker, getTicker };
+export { Ticker, getTicker, deleteTicker };
