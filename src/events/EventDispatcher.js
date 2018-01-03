@@ -272,7 +272,7 @@ class EventDispatcher {
 		if (!eventObj.bubbles || !this.parent) {
 			this._dispatchEvent(eventObj, 2);
 		} else {
-			const top = this;
+			let top = this;
 			const list = [top];
 			while (top.parent) { list.push(top = top.parent); }
 			const l = list.length;
