@@ -20,4 +20,5 @@ Thumbs.db
 *.log
 
 # Project
+docs/
 tests/
