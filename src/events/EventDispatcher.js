@@ -26,7 +26,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import Event from "./Event";
+import { Event } from "./Event";
 
 /**
  * EventDispatcher provides methods for managing queues of event listeners and dispatching events.
@@ -358,4 +358,4 @@ class EventDispatcher {
 
 }
 
-export default EventDispatcher;
+export { EventDispatcher };
