@@ -26,26 +26,13 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import { EventDispatcher } from "../events/EventDispatcher";
-import { Event } from "../events/Event";
+import EventDispatcher from "../events/EventDispatcher";
+import Event from "../events/Event";
 
 // reference to each ticker created
 const _tickerInstances = {};
-/**
- * It is not initalized by default and its ticks are not synched with any other instance.
- *
- * @param {string} name The name given to the new instance.
- * @return {core.Ticker} A new Ticker instance.
- */
-function createTicker (name) {
-	if (_tickerInstances[name]) {
-		throw new Error(`A ticker instance named '${name}' already exists.`);
-	}
-	return new Ticker(name);
-}
 function getTicker (name) { return _tickerInstances[name]; }
 function deleteTicker (name) { delete _tickerInstances[name]; }
-function isTicker (tkr) { return tkr instanceof Ticker; }
 
 /**
  * The Ticker provides a centralized tick or heartbeat broadcast at a set interval. Listeners can subscribe to the tick
@@ -291,6 +278,20 @@ class Ticker extends EventDispatcher {
 	set framerate (framerate) { this.interval = 1000 / framerate; }
 
 	/**
+	 * Call Ticker.create() to get a new Ticker instance.
+	 * It is not initalized by default and its ticks are not synched with any other instance.
+	 *
+	 * @param {string} name The name given to the new instance.
+	 * @return {core.Ticker} A new Ticker instance.
+	 */
+	create (name) {
+		if (_tickerInstances[name]) {
+			throw new Error(`A ticker instance named '${name}' already exists.`);
+		}
+		return new Ticker(name);
+	}
+
+	/**
 	 * Starts the tick. This is called automatically when the first listener is added.
 	 */
 	init () {
@@ -514,11 +515,5 @@ class Ticker extends EventDispatcher {
  * @since 0.6.0
  */
 
-const _Ticker = new Ticker("createjs.global");
-export {
-	_Ticker as Ticker,
-	createTicker,
-	getTicker,
-	deleteTicker,
-	isTicker
-};
+export default new Ticker("createjs.global");
+export { Ticker, getTicker, deleteTicker };

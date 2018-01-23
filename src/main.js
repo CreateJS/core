@@ -39,13 +39,10 @@
  */
 
 // events
-export { Event } from "./events/Event";
-export { EventDispatcher } from "./events/EventDispatcher";
+export { default as Event } from "./events/Event";
+export { default as EventDispatcher } from "./events/EventDispatcher";
 // utils
-export {
-  Ticker,
-  createTicker,
-  getTicker,
-  deleteTicker,
-  isTicker
-} from "./utils/Ticker";
+export { default as Ticker } from "./utils/Ticker";
+// inject version into window
+const v = (window.createjs = window.createjs || { v: {} });
+v.c = "<%= version %>";
