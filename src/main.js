@@ -42,7 +42,10 @@
 export { default as Event } from "./events/Event";
 export { default as EventDispatcher } from "./events/EventDispatcher";
 // utils
-export { default as Ticker } from "./utils/Ticker";
-// inject version into window
-const v = (window.createjs = window.createjs || { v: {} });
-v.c = "<%= version %>";
+export {
+  default as Ticker,
+  createTicker,
+  deleteTicker,
+  getTicker,
+  isTicker
+} from "./utils/Ticker";
