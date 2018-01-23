@@ -514,4 +514,5 @@ class Ticker extends EventDispatcher {
  * @since 0.6.0
  */
 
-export default const _Ticker = new Ticker("createjs.global");
+const _Ticker = new Ticker("createjs.global");
+export { _Ticker as default };
