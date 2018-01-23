@@ -46,7 +46,6 @@
     "test": "tests"
   },
   "scripts": {
-    "postinstall": "npm link .",
     "test": "jest -c ./tests/jest.config.js",
     "lint": "cd node_modules/@createjs/build && gulp lint",
     "dev": "cd node_modules/@createjs/build && gulp dev",
