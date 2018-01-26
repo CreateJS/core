@@ -29,24 +29,6 @@
 import EventDispatcher from "../events/EventDispatcher";
 import Event from "../events/Event";
 
-// reference to each ticker created
-const _tickerInstances = {};
-/**
- * It is not initalized by default and its ticks are not synched with any other instance.
- *
- * @param {string} name The name given to the new instance.
- * @return {core.Ticker} A new Ticker instance.
- */
-export function createTicker (name) {
-    if (_tickerInstances[name]) {
-        throw new Error(`A ticker instance named '${name}' already exists.`);
-    }
-    return new Ticker(name);
-}
-export function getTicker (name) { return _tickerInstances[name]; }
-export function deleteTicker (name) { delete _tickerInstances[name]; }
-export function isTicker (tkr) { return tkr instanceof Ticker; }
-
 /**
  * The Ticker provides a centralized tick or heartbeat broadcast at a set interval. Listeners can subscribe to the tick
  * event to be notified when a set time interval has elapsed.
@@ -133,7 +115,6 @@ class Ticker extends EventDispatcher {
 		 * @type {string}
 		 */
 		this.name = name;
-		_tickerInstances[name] = this;
 
 		/**
 		 * Specifies the timing api (setTimeout or requestAnimationFrame) and mode to use.
@@ -458,9 +439,7 @@ class Ticker extends EventDispatcher {
 	 * @emits core.Ticker#event:tick
 	 */
 	_tick () {
-		const paused = this.paused,
-			time = this._getTime(),
-			elapsedTime = time-this._lastTime;
+		const paused = this.paused, time = this._getTime(), elapsedTime = time - this._lastTime;
 		this._lastTime = time;
 		this._ticks++;
 
@@ -475,7 +454,7 @@ class Ticker extends EventDispatcher {
 			event.delta = (maxDelta && elapsedTime > maxDelta) ? maxDelta : elapsedTime;
 			event.paused = paused;
 			event.time = time;
-			event.runTime = time-this._pausedTime;
+			event.runTime = time - this._pausedTime;
 			this.dispatchEvent(event);
 		}
 
@@ -493,6 +472,25 @@ class Ticker extends EventDispatcher {
 		const now = window.performance && window.performance.now;
 		return ((now && now.call(performance)) || (new Date().getTime())) - this._startTime;
 	}
+
+	static get interval () { return _instance.interval; }
+	static set interval (interval) { _instance.interval = interval; }
+	static get framerate () { return _instance.framerate; }
+	static set framerate (framerate) { _instance.framerate = framerate; }
+	static init () { _instance.init(); }
+	static reset () { _instance.reset(); }
+	static addEventListener (type, listener, useCapture) { _instance.addEventListener(type, listener, useCapture); }
+	static getMeasuredTickTime (ticks) { return _instance.getMeasuredTickTime(ticks); }
+	static getMeasuredFPS (ticks) { return _instance.getMeasuredFPS(ticks); }
+	static getTime (runTime) { return _instance.getTime(runTime); }
+	static getEventTime (runTime) { return _instance.getEventTime(runTime); }
+	static getTicks (pauseable) { return _instance.getTicks(pauseable); }
+	static _handleSynch () { _instance._handleSynch(); }
+	static _handleRAF () { _instance._handleRAF(); }
+	static _handleTimeout () { _instance._handleTimeout(); }
+	static _setupTick () { _instance._setupTick(); }
+	static _tick () { _instance._tick(); }
+	static _getTime () { return _instance._getTime(); }
 
 }
 
@@ -514,5 +512,7 @@ class Ticker extends EventDispatcher {
  * @since 0.6.0
  */
 
-const _Ticker = new Ticker("createjs.global");
-export { _Ticker as default };
+export default Ticker;
+
+// the default Ticker instance
+const _instance = new Ticker("createjs.global");

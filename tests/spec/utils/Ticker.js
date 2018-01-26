@@ -1,4 +1,4 @@
-import Ticker, { getTicker, deleteTicker } from '../../src/utils/Ticker';
+import Ticker from "../../../src/utils/Ticker";
 
 jest.useFakeTimers();
 
@@ -74,24 +74,6 @@ describe("Ticker", () => {
 				40
 			);
 		});
-	});
-
-	test("can create new tickers", () => {
-		expect(Ticker.name).toBe("createjs.global");
-		const name = "myTicker";
-		const myTicker = Ticker.create(name);
-		expect(myTicker).not.toBe(Ticker);
-		expect(myTicker.name).toBe(name);
-		expect(() => Ticker.create(name)).toThrow(`A ticker instance named '${name}' already exists.`);
-	});
-
-	test("can get and delete existing tickers", () => {
-		const name = "myTicker";
-		deleteTicker(name);
-		expect(getTicker(name)).toBeUndefined();
-		Ticker.create(name);
-		const myTicker = getTicker(name);
-		expect(myTicker.name).toBe(name);
 	});
 
 });
