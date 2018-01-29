@@ -165,7 +165,7 @@ class EventDispatcher {
 			listener = listener.handleEvent;
 		}
 		scope = scope || this;
-		return this.addEventListener(type, event => {
+		return this.addEventListener(type, evt => {
 			listener.call(scope, evt, data);
 			once && evt.remove();
 		}, useCapture);
@@ -325,7 +325,7 @@ class EventDispatcher {
 	 * @return {String} a string representation of the instance.
 	 */
 	toString () {
-		return "[EventDispatcher]";
+		return `[${this.constructor.name + this.name ? ` ${this.name}` : ""}]`;
 	}
 
 	/**
