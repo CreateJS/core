@@ -473,6 +473,15 @@ class Ticker extends EventDispatcher {
 		return ((now && now.call(performance)) || (new Date().getTime())) - this._startTime;
 	}
 
+	static on (type, listener, scope, once, data, useCapture) { return _instance.on(type, listener, scope, once, data, useCapture); }
+	static removeEventListener (type, listener, useCapture) { _instance.removeEventListener(type, listener, useCapture); }
+	static off (type, listener, useCapture) { _instance.off(type, listener, useCapture); }
+	static removeAllEventListeners (type) { _instance.removeAllEventListeners(type); }
+	static dispatchEvent (eventObj, bubbles, cancelable) { return _instance.dispatchEvent(eventObj, bubbles, cancelable); }
+	static hasEventListener (type) { return _instance.hasEventListener(type); }
+	static willTrigger (type) { return _instance.willTrigger(type); }
+	static toString () { return _instance.toString(); }
+	static _dispatchEvent (eventObj, eventPhase) {}
 	static get interval () { return _instance.interval; }
 	static set interval (interval) { _instance.interval = interval; }
 	static get framerate () { return _instance.framerate; }
