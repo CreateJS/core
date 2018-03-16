@@ -481,11 +481,6 @@ class Ticker extends EventDispatcher {
 	static hasEventListener (type) { return _instance.hasEventListener(type); }
 	static willTrigger (type) { return _instance.willTrigger(type); }
 	static toString () { return _instance.toString(); }
-	static _dispatchEvent (eventObj, eventPhase) {}
-	static get interval () { return _instance.interval; }
-	static set interval (interval) { _instance.interval = interval; }
-	static get framerate () { return _instance.framerate; }
-	static set framerate (framerate) { _instance.framerate = framerate; }
 	static init () { _instance.init(); }
 	static reset () { _instance.reset(); }
 	static addEventListener (type, listener, useCapture) { _instance.addEventListener(type, listener, useCapture); }
@@ -494,12 +489,19 @@ class Ticker extends EventDispatcher {
 	static getTime (runTime) { return _instance.getTime(runTime); }
 	static getEventTime (runTime) { return _instance.getEventTime(runTime); }
 	static getTicks (pauseable) { return _instance.getTicks(pauseable); }
-	static _handleSynch () { _instance._handleSynch(); }
-	static _handleRAF () { _instance._handleRAF(); }
-	static _handleTimeout () { _instance._handleTimeout(); }
-	static _setupTick () { _instance._setupTick(); }
-	static _tick () { _instance._tick(); }
-	static _getTime () { return _instance._getTime(); }
+
+	static get interval () { return _instance.interval; }
+	static set interval (interval) { _instance.interval = interval; }
+	static get framerate () { return _instance.framerate; }
+	static set framerate (framerate) { _instance.framerate = framerate; }
+	static get name () { return _instance.name; }
+	static set name (name) { _instance.name = name; }
+	static get timingMode () { return _instance.timingMode; }
+	static set timingMode (timingMode) { _instance.timingMode = timingMode; }
+	static get maxDelta () { return _instance.maxDelta; }
+	static set maxDelta (maxDelta) { _instance.maxDelta = maxDelta; }
+	static get paused () { return _instance.paused; }
+	static set paused (paused) { _instance.paused = paused; }
 
 }
 
