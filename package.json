@@ -20,18 +20,18 @@
   "contributors": [
     "Grant Skinner <grant@gskinner.com> (https://github.com/gskinner)",
     "Lanny McNie <lanny@gskinner.com> (https://github.com/lannymcnie)",
-    "Wes Gorgichuk <wes@gskinner.com> (https://github.com/wdamien)"
+    "Wes Gorgichuk <wes@gskinner.com> (https://github.com/wdamien)",
+    "Patrick McGuckin <p.mcgooks@gmail.com> (https://github.com/tehvgg)"
   ],
   "main": "dist/core.common.js",
-  "module": "dist/core.es.js",
-  "jsnext:main": "dist/core.es.js",
-  "jsdelivr": "dist/core.min.js",
-  "logo": "icon.png",
+  "module": "dist/core.module.js",
+  "browser": "dist/core.min.js",
+  "logo": "assets/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/createjs/core.git"
   },
-  "npmName": "@createjs/core",
+  "npmName": "createjs-core",
   "npmFileMap": [
     {
       "basePath": "dist",
@@ -53,9 +53,10 @@
     "plugins": "cd node_modules/@createjs/build && gulp plugins",
     "docs": "cd node_modules/@createjs/docs && npm run gen"
   },
-  "engine": "node >= 7.10.1",
   "devDependencies": {
+    "@createjs/build": "github:createjs/build",
     "babel-jest": "^22.0.4",
     "jest": "^22.0.4"
-  }
+  },
+  "engine": "node >= 8.9.4"
 }
