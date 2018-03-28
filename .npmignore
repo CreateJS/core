@@ -19,5 +19,9 @@ Thumbs.db
 *.log
 
 # Project
+assets/
 docs/
 tests/
+.editorconfig
+CHANGELOG.md
+CONTRIBUTING.md
