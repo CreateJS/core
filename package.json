@@ -1,7 +1,7 @@
 {
   "name": "@createjs/core",
-  "version": "2.0.0-beta.1",
-  "description": "Core shared files for the CreateJS suite of JavaScript libraries.",
+  "version": "2.0.0-beta.4",
+  "description": "Core files for the CreateJS suite of JavaScript libraries.",
   "keywords": [
     "createjs",
     "easeljs",
@@ -23,15 +23,25 @@
     "Wes Gorgichuk <wes@gskinner.com> (https://github.com/wdamien)",
     "Patrick McGuckin <p.mcgooks@gmail.com> (https://github.com/tehvgg)"
   ],
-  "main": "dist/core.common.js",
-  "module": "dist/core.module.js",
-  "browser": "dist/core.min.js",
+  "main": "dist/core.cjs.js",
+  "module": "src/main.js",
   "logo": "assets/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/createjs/core.git"
   },
-  "npmName": "createjs-core",
+  "scripts": {
+    "test": "cd node_modules/@createjs/build && npm test",
+    "dev": "cd node_modules/@createjs/build && gulp dev --format=iife",
+    "build": "cd node_modules/@createjs/build && gulp build",
+    "docs": "cd node_modules/@createjs/docs && npm run gen"
+  },
+  "devDependencies": {
+    "@createjs/build": "2.0.0-beta.4",
+    "@createjs/easeljs": "2.0.0-beta.4"
+  },
+  "engine": "node >= 8.9.0",
+	"npmName": "createjs-core",
   "npmFileMap": [
     {
       "basePath": "dist",
@@ -44,18 +54,5 @@
     "doc": "docs",
     "lib": "dist",
     "test": "tests"
-  },
-  "scripts": {
-    "test": "jest -c ./tests/jest.config.js",
-    "lint": "cd node_modules/@createjs/build && gulp lint",
-    "dev": "cd node_modules/@createjs/build && gulp dev --format=global",
-    "build": "cd node_modules/@createjs/build && gulp build",
-    "docs": "cd node_modules/@createjs/docs && npm run gen"
-  },
-  "devDependencies": {
-    "@createjs/build": "2.0.0-beta.3",
-    "babel-jest": "^22.4.3",
-    "jest": "^22.4.3"
-  },
-  "engine": "node >= 8.9.4"
+  }
 }

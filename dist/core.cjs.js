@@ -1,6 +1,5 @@
 /**
- * @license
- * Core
+ * @license Core
  * Visit https://createjs.com for documentation, updates and examples.
  *
  * Copyright (c) 2017 gskinner.com, inc.
@@ -26,62 +25,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+'use strict';
 
-var classCallCheck = function(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
+Object.defineProperty(exports, '__esModule', { value: true });
 
-var createClass = function() {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
+var Event =
+function () {
+  function Event(type, bubbles, cancelable) {
+    if (bubbles === void 0) {
+      bubbles = false;
     }
-  }
-  return function(Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-var inherits = function(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
+    if (cancelable === void 0) {
+      cancelable = false;
     }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-};
-
-var possibleConstructorReturn = function(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
-
-var Event = function() {
-  function Event(type) {
-    var bubbles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    var cancelable = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-    classCallCheck(this, Event);
     this.type = type;
     this.target = null;
     this.currentTarget = null;
@@ -94,23 +51,24 @@ var Event = function() {
     this.immediatePropagationStopped = false;
     this.removed = false;
   }
-  Event.prototype.preventDefault = function preventDefault() {
+  var _proto = Event.prototype;
+  _proto.preventDefault = function preventDefault() {
     this.defaultPrevented = this.cancelable;
     return this;
   };
-  Event.prototype.stopPropagation = function stopPropagation() {
+  _proto.stopPropagation = function stopPropagation() {
     this.propagationStopped = true;
     return this;
   };
-  Event.prototype.stopImmediatePropagation = function stopImmediatePropagation() {
+  _proto.stopImmediatePropagation = function stopImmediatePropagation() {
     this.immediatePropagationStopped = this.propagationStopped = true;
     return this;
   };
-  Event.prototype.remove = function remove() {
+  _proto.remove = function remove() {
     this.removed = true;
     return this;
   };
-  Event.prototype.clone = function clone() {
+  _proto.clone = function clone() {
     var event = new Event(this.type, this.bubbles, this.cancelable);
     for (var n in this) {
       if (this.hasOwnProperty(n)) {
@@ -119,19 +77,20 @@ var Event = function() {
     }
     return event;
   };
-  Event.prototype.set = function set(props) {
+  _proto.set = function set(props) {
     for (var n in props) {
       this[n] = props[n];
     }
     return this;
   };
-  Event.prototype.toString = function toString() {
+  _proto.toString = function toString() {
     return "[" + this.constructor.name + " (type=" + this.type + ")]";
   };
   return Event;
 }();
 
-var EventDispatcher = function() {
+var EventDispatcher =
+function () {
   EventDispatcher.initialize = function initialize(target) {
     var p = EventDispatcher.prototype;
     target.addEventListener = p.addEventListener;
@@ -144,13 +103,15 @@ var EventDispatcher = function() {
     target.willTrigger = p.willTrigger;
   };
   function EventDispatcher() {
-    classCallCheck(this, EventDispatcher);
     this._listeners = null;
     this._captureListeners = null;
   }
-  EventDispatcher.prototype.addEventListener = function addEventListener(type, listener) {
-    var useCapture = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-    var listeners = void 0;
+  var _proto = EventDispatcher.prototype;
+  _proto.addEventListener = function addEventListener(type, listener, useCapture) {
+    if (useCapture === void 0) {
+      useCapture = false;
+    }
+    var listeners;
     if (useCapture) {
       listeners = this._captureListeners = this._captureListeners || {};
     } else {
@@ -164,27 +125,37 @@ var EventDispatcher = function() {
     if (arr) {
       arr.push(listener);
     } else {
-      listeners[type] = [ listener ];
+      listeners[type] = [listener];
     }
     return listener;
   };
-  EventDispatcher.prototype.on = function on(type, listener) {
-    var scope = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-    var once = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-    var data = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
-    var useCapture = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
+  _proto.on = function on(type, listener, scope, once, data, useCapture) {
+    if (scope === void 0) {
+      scope = null;
+    }
+    if (once === void 0) {
+      once = false;
+    }
+    if (data === void 0) {
+      data = {};
+    }
+    if (useCapture === void 0) {
+      useCapture = false;
+    }
     if (listener.handleEvent) {
       scope = scope || listener;
       listener = listener.handleEvent;
     }
     scope = scope || this;
-    return this.addEventListener(type, function(evt) {
+    return this.addEventListener(type, function (evt) {
       listener.call(scope, evt, data);
       once && evt.remove();
     }, useCapture);
   };
-  EventDispatcher.prototype.removeEventListener = function removeEventListener(type, listener) {
-    var useCapture = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  _proto.removeEventListener = function removeEventListener(type, listener, useCapture) {
+    if (useCapture === void 0) {
+      useCapture = false;
+    }
     var listeners = useCapture ? this._captureListeners : this._listeners;
     if (!listeners) {
       return;
@@ -198,19 +169,24 @@ var EventDispatcher = function() {
       if (arr[i] === listener) {
         if (l === 1) {
           delete listeners[type];
-        } else {
-          arr.splice(i, 1);
         }
+        else {
+            arr.splice(i, 1);
+          }
         break;
       }
     }
   };
-  EventDispatcher.prototype.off = function off(type, listener) {
-    var useCapture = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  _proto.off = function off(type, listener, useCapture) {
+    if (useCapture === void 0) {
+      useCapture = false;
+    }
     this.removeEventListener(type, listener, useCapture);
   };
-  EventDispatcher.prototype.removeAllEventListeners = function removeAllEventListeners() {
-    var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  _proto.removeAllEventListeners = function removeAllEventListeners(type) {
+    if (type === void 0) {
+      type = null;
+    }
     if (type) {
       if (this._listeners) {
         delete this._listeners[type];
@@ -222,9 +198,13 @@ var EventDispatcher = function() {
       this._listeners = this._captureListeners = null;
     }
   };
-  EventDispatcher.prototype.dispatchEvent = function dispatchEvent(eventObj) {
-    var bubbles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    var cancelable = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  _proto.dispatchEvent = function dispatchEvent(eventObj, bubbles, cancelable) {
+    if (bubbles === void 0) {
+      bubbles = false;
+    }
+    if (cancelable === void 0) {
+      cancelable = false;
+    }
     if (typeof eventObj === "string") {
       var listeners = this._listeners;
       if (!bubbles && (!listeners || !listeners[eventObj])) {
@@ -241,12 +221,12 @@ var EventDispatcher = function() {
       this._dispatchEvent(eventObj, 2);
     } else {
       var top = this;
-      var list = [ top ];
+      var list = [top];
       while (top.parent) {
         list.push(top = top.parent);
       }
       var l = list.length;
-      var i = void 0;
+      var i;
       for (i = l - 1; i >= 0 && !eventObj.propagationStopped; i--) {
         list[i]._dispatchEvent(eventObj, 1 + (i == 0));
       }
@@ -256,11 +236,12 @@ var EventDispatcher = function() {
     }
     return !eventObj.defaultPrevented;
   };
-  EventDispatcher.prototype.hasEventListener = function hasEventListener(type) {
-    var listeners = this._listeners, captureListeners = this._captureListeners;
+  _proto.hasEventListener = function hasEventListener(type) {
+    var listeners = this._listeners,
+        captureListeners = this._captureListeners;
     return !!(listeners && listeners[type] || captureListeners && captureListeners[type]);
   };
-  EventDispatcher.prototype.willTrigger = function willTrigger(type) {
+  _proto.willTrigger = function willTrigger(type) {
     var o = this;
     while (o) {
       if (o.hasEventListener(type)) {
@@ -270,14 +251,14 @@ var EventDispatcher = function() {
     }
     return false;
   };
-  EventDispatcher.prototype.toString = function toString() {
+  _proto.toString = function toString() {
     return "[" + (this.constructor.name + this.name ? " " + this.name : "") + "]";
   };
-  EventDispatcher.prototype._dispatchEvent = function _dispatchEvent(eventObj, eventPhase) {
+  _proto._dispatchEvent = function _dispatchEvent(eventObj, eventPhase) {
     var listeners = eventPhase === 1 ? this._captureListeners : this._listeners;
     if (eventObj && listeners) {
       var arr = listeners[eventObj.type];
-      var l = void 0;
+      var l;
       if (!arr || (l = arr.length) === 0) {
         return;
       }
@@ -306,9 +287,32 @@ var EventDispatcher = function() {
   return EventDispatcher;
 }();
 
-var Ticker = function(_EventDispatcher) {
-  inherits(Ticker, _EventDispatcher);
-  createClass(Ticker, null, [ {
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
+}
+
+var Ticker =
+function (_EventDispatcher) {
+  _inheritsLoose(Ticker, _EventDispatcher);
+  _createClass(Ticker, null, [{
     key: "RAF_SYNCHED",
     get: function get() {
       return "synched";
@@ -323,10 +327,10 @@ var Ticker = function(_EventDispatcher) {
     get: function get() {
       return "timeout";
     }
-  } ]);
+  }]);
   function Ticker(name) {
-    classCallCheck(this, Ticker);
-    var _this = possibleConstructorReturn(this, _EventDispatcher.call(this));
+    var _this;
+    _this = _EventDispatcher.call(this) || this;
     _this.name = name;
     _this.timingMode = Ticker.TIMEOUT;
     _this.maxDelta = 0;
@@ -344,7 +348,8 @@ var Ticker = function(_EventDispatcher) {
     _this._raf = true;
     return _this;
   }
-  Ticker.prototype.init = function init() {
+  var _proto = Ticker.prototype;
+  _proto.init = function init() {
     if (this._inited) {
       return;
     }
@@ -355,7 +360,7 @@ var Ticker = function(_EventDispatcher) {
     this._times.push(this._lastTime = 0);
     this._setupTick();
   };
-  Ticker.prototype.reset = function reset() {
+  _proto.reset = function reset() {
     if (this._raf) {
       var f = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.oCancelAnimationFrame || window.msCancelAnimationFrame;
       f && f(this._timerId);
@@ -367,60 +372,70 @@ var Ticker = function(_EventDispatcher) {
     this._startTime = this._lastTime = this._ticks = 0;
     this._inited = false;
   };
-  Ticker.prototype.addEventListener = function addEventListener(type, listener, useCapture) {
+  _proto.addEventListener = function addEventListener(type, listener, useCapture) {
     !this._inited && this.init();
     return _EventDispatcher.prototype.addEventListener.call(this, type, listener, useCapture);
   };
-  Ticker.prototype.getMeasuredTickTime = function getMeasuredTickTime() {
-    var ticks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  _proto.getMeasuredTickTime = function getMeasuredTickTime(ticks) {
+    if (ticks === void 0) {
+      ticks = null;
+    }
     var times = this._tickTimes;
     if (!times || times.length < 1) {
       return -1;
     }
     ticks = Math.min(times.length, ticks || this.framerate | 0);
-    return times.reduce(function(a, b) {
+    return times.reduce(function (a, b) {
       return a + b;
     }, 0) / ticks;
   };
-  Ticker.prototype.getMeasuredFPS = function getMeasuredFPS() {
-    var ticks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  _proto.getMeasuredFPS = function getMeasuredFPS(ticks) {
+    if (ticks === void 0) {
+      ticks = null;
+    }
     var times = this._times;
     if (!times || times.length < 2) {
       return -1;
     }
     ticks = Math.min(times.length - 1, ticks || this.framerate | 0);
-    return 1e3 / ((times[0] - times[ticks]) / ticks);
+    return 1000 / ((times[0] - times[ticks]) / ticks);
   };
-  Ticker.prototype.getTime = function getTime() {
-    var runTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  _proto.getTime = function getTime(runTime) {
+    if (runTime === void 0) {
+      runTime = false;
+    }
     return this._startTime ? this._getTime() - (runTime ? this._pausedTime : 0) : -1;
   };
-  Ticker.prototype.getEventTime = function getEventTime() {
-    var runTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  _proto.getEventTime = function getEventTime(runTime) {
+    if (runTime === void 0) {
+      runTime = false;
+    }
     return this._startTime ? (this._lastTime || this._startTime) - (runTime ? this._pausedTime : 0) : -1;
   };
-  Ticker.prototype.getTicks = function getTicks() {
-    var pauseable = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  _proto.getTicks = function getTicks(pauseable) {
+    if (pauseable === void 0) {
+      pauseable = false;
+    }
     return this._ticks - (pauseable ? this._pausedTicks : 0);
   };
-  Ticker.prototype._handleSynch = function _handleSynch() {
+  _proto._handleSynch = function _handleSynch() {
     this._timerId = null;
     this._setupTick();
-    if (this._getTime() - this._lastTime >= (this._interval - 1) * .97) {
+    if (this._getTime() - this._lastTime >= (this._interval - 1) * 0.97) {
       this._tick();
     }
   };
-  Ticker.prototype._handleRAF = function _handleRAF() {
+  _proto._handleRAF = function _handleRAF() {
     this._timerId = null;
     this._setupTick();
     this._tick();
   };
-  Ticker.prototype._handleTimeout = function _handleTimeout() {
+  _proto._handleTimeout = function _handleTimeout() {
     this._timerId = null;
     this._setupTick();
     this._tick();
   };
-  Ticker.prototype._setupTick = function _setupTick() {
+  _proto._setupTick = function _setupTick() {
     if (this._timerId != null) {
       return;
     }
@@ -436,8 +451,10 @@ var Ticker = function(_EventDispatcher) {
     this._raf = false;
     this._timerId = setTimeout(this._handleTimeout.bind(this), this._interval);
   };
-  Ticker.prototype._tick = function _tick() {
-    var paused = this.paused, time = this._getTime(), elapsedTime = time - this._lastTime;
+  _proto._tick = function _tick() {
+    var paused = this.paused,
+        time = this._getTime(),
+        elapsedTime = time - this._lastTime;
     this._lastTime = time;
     this._ticks++;
     if (paused) {
@@ -462,7 +479,7 @@ var Ticker = function(_EventDispatcher) {
       this._times.pop();
     }
   };
-  Ticker.prototype._getTime = function _getTime() {
+  _proto._getTime = function _getTime() {
     var now = window.performance && window.performance.now;
     return (now && now.call(performance) || new Date().getTime()) - this._startTime;
   };
@@ -514,7 +531,7 @@ var Ticker = function(_EventDispatcher) {
   Ticker.getTicks = function getTicks(pauseable) {
     return _instance.getTicks(pauseable);
   };
-  createClass(Ticker, [ {
+  _createClass(Ticker, [{
     key: "interval",
     get: function get() {
       return this._interval;
@@ -529,12 +546,12 @@ var Ticker = function(_EventDispatcher) {
   }, {
     key: "framerate",
     get: function get() {
-      return 1e3 / this._interval;
+      return 1000 / this._interval;
     },
     set: function set(framerate) {
-      this.interval = 1e3 / framerate;
+      this.interval = 1000 / framerate;
     }
-  } ], [ {
+  }], [{
     key: "interval",
     get: function get() {
       return _instance.interval;
@@ -582,27 +599,18 @@ var Ticker = function(_EventDispatcher) {
     set: function set(paused) {
       _instance.paused = paused;
     }
-  } ]);
+  }]);
   return Ticker;
 }(EventDispatcher);
-
 var _instance = new Ticker("createjs.global");
 
 exports.Event = Event;
-
 exports.EventDispatcher = EventDispatcher;
-
 exports.Ticker = Ticker;
 
-exports.Event = Event;
 
-exports.EventDispatcher = EventDispatcher;
-
-exports.Ticker = Ticker;
-
-var cjs = window.createjs = window.createjs || {};
-
-var v = cjs.v = cjs.v || {};
-
-v.core = "2.0.0";
-//# sourceMappingURL=maps/core.common.js.map
+					var cjs = window.createjs = window.createjs || {};
+					var v = cjs.v = cjs.v || {};
+				
+v.core = "NEXT";
+//# sourceMappingURL=core.cjs.js.map

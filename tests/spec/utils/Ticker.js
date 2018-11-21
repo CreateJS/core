@@ -1,10 +1,9 @@
 import Ticker from "../../../src/utils/Ticker";
 
-jest.useFakeTimers();
-
 describe("Ticker", () => {
 
 	beforeEach(() => {
+		jest.useFakeTimers();
 		Ticker.reset();
 		Ticker.init();
 	});
